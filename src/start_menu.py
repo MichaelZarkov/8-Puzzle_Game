@@ -54,9 +54,8 @@ class StartMenu:
         clock = pygame.time.Clock()
 
         while True:
+            clock.tick(gc.FPS)
             for event in pygame.event.get():
-                clock.tick(gc.FPS)
-
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if play_btn.check_btn_press(event.pos):
                         mouse_down_inside_button['play'] = True
