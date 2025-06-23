@@ -5,9 +5,10 @@ The 8-Puzzle consists of a 3x3 board and 8 tiles usually nubered 1 through 8. Th
 <img src='docs\media\8-puzzle_solved_board.png' width=180 height=180 style='display:block; margin-left:auto; margin-right: auto;'>
 
 The tiles may not be numbered but instead be the squares of a picture:
-<br>
 
-<img src='docs\media\scrambled_picture.png' width=200 height=200 style='display:block; margin-left:auto; margin-right: auto;'>
+<p align='center'>
+  <img src='docs\media\scrambled_picture.png' width=200 height=200>
+</p>
 
 ## Demo
 
@@ -21,7 +22,7 @@ Demo of the built-in puzzle solver.
 
 If you are on Windows you can just download the contents of the `exe` folder and run `8-puzzle_game.exe` - **no need to install Python**.
 
-Alternatively you can download the folders `imgs`, `q_tables` and `src`; install the listed packages from `requirements.txt` and run the script `play.py`.
+Alternatively you can download the folders `imgs`, `q_tables` and `src`; install the listed packages from `requirements.txt`; run the script `play.py`.
 
 ## Project Structure
 
