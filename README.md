@@ -2,21 +2,17 @@
 
 The 8-Puzzle consists of a 3x3 board and 8 tiles usually nubered 1 through 8. The goal of the puzzle is to arrange the tiles in accending order only by sliding them:
 
-<img src='docs\media\8-puzzle_solved_board.png' width=180 height=180 style='display:block; margin-left:auto; margin-right: auto;'>
+<img src='docs\media\8-puzzle_solved_board.png' width='180' height='180'>
 
 The tiles may not be numbered but instead be the squares of a picture:
 
-<p align='center'>
-  <img src='docs\media\scrambled_picture.png' width=200 height=200>
-</p>
+<img src='docs\media\scrambled_picture.png' width='180' height='180'>
 
 ## Demo
 
 Demo of the built-in puzzle solver.
 
-<video width='322' controls style='display:block; margin-left:auto; margin-right: auto;'>
-  <source src='docs\media\solver_demo.mp4'>
-</video>
+![Solver demo](docs\media\solver_demo.gif)
 
 ## How to Play
 
