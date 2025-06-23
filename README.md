@@ -12,7 +12,7 @@ The tiles may not be numbered but instead be the squares of a picture:
 
 Demo of the built-in puzzle solver.
 
-<img src='docs\media\solver_demo.gif' width='250'>
+<img src='docs\media\solver_demo.gif' width='241'>
 
 ## How to Play
 
