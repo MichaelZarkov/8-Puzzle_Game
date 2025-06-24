@@ -80,8 +80,7 @@ is be represented as `[1,2,3,4,5,6,7,8,0]`.
 - `count_transpositions(board) -> number` - `@staticmethod`, takes a list with the numbers 0 to 8 and returns the transposition count **of the numbers 1 to 8**. The result is used to check wether a tile arrangement is solvable (i.e. if the final position `[1,2,3,4,5,6,7,8,0]` can be reached only through sliding of the tiles). If the result is even the puzzle is solvable; if it is odd it cannot be solved through sliding.
 - `is_solved() -> bool` - returns true if the puzzle is in the solved position.
 - `move_hole(direction)` - takes a direction `'u'/'r'/'d'/'l'` and *"moves the hole"* in this direction. For example if the hole is top center and call `move_hole('down')` the center tile will slide up:
-<p align='center'>
-  <table>
+  <table align='center'>
     <tr>
       <th>Before call</th>
       <th>After call</th>
@@ -90,5 +89,5 @@ is be represented as `[1,2,3,4,5,6,7,8,0]`.
       <td><img src='media\8-puzzle_shuffled_board.png' width='180'></td>
     </tr>
   </table>
-</p>
+
   
