@@ -81,14 +81,14 @@ is be represented as `[1,2,3,4,5,6,7,8,0]`.
 - `is_solved() -> bool` - returns true if the puzzle is in the solved position.
 - `move_hole(direction)` - takes a direction `'u'/'r'/'d'/'l'` and *"moves the hole"* in this direction. For example if the hole is top center and call `move_hole('down')` the center tile will slide up:
 <p align='center'>
-<table style='margin: 0px auto'>
-  <tr>
-    <th>Before call</th>
-    <th>After call</th>
-  </tr>
-  <tr>
-    <td><img src='media\8-puzzle_shuffled_board.png' width='180'></td>
-  </tr>
-</table>
+  <table>
+    <tr>
+      <th>Before call</th>
+      <th>After call</th>
+    </tr>
+    <tr>
+      <td><img src='media\8-puzzle_shuffled_board.png' width='180'></td>
+    </tr>
+  </table>
 </p>
   
