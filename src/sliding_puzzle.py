@@ -87,7 +87,9 @@ class SlidingPuzzleGame:
     
     def move_tile(self, row, col):
         """
-        Moves the tile in position (row, col) to the adjacent empty spot. Does nothing if none of the adjacent spots are empty.
+        Moves the tile in position (row, col) to the adjacent empty spot.
+        Does nothing if none of the adjacent spots are empty.
+        If the tile was moved, returns the index it was moved to. Returns None otherwise.
         Throws an error for invalid row or col.
         """
 
