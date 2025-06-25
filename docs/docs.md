@@ -231,7 +231,7 @@ states (board arrangements) reachable from the solved position `[1,2,3,4,5,6,7,8
 
 The algorithm creates a Q-function:
 ```math
-Q: S \times A \rarr \mathbb{R}
+Q:  S \times A \rightarrow \mathbb{R}
 ```
 where for every board arrangement and for **every possible movement of the hole in this board arrangement**, the function gives a number. The higher the number the better the move is considered to be.
 
