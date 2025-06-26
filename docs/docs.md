@@ -17,7 +17,7 @@
   - [*sliding\_puzzle.py*](#sliding_puzzlepy)
       - [`count_transpositions(board) -> number` `@staticmethod`](#count_transpositionsboard---number-staticmethod)
       - [`is_solved() -> bool`](#is_solved---bool)
-      - [`move_hole(direction) -> (ti, hi)`](#move_holedirection---ti-hi)
+      - [`move_hole(direction) -> (tile_index, hole_index)`](#move_holedirection---tile_index-hole_index)
       - [`move_tile(row, col) -> index`](#move_tilerow-col---index)
       - [`move_tile_by_index(i) -> index`](#move_tile_by_indexi---index)
       - [`shuffle() -> None`](#shuffle---none)
@@ -107,23 +107,23 @@ The following scripts are needed to play the game.
 
 `class Game` - GUI of the game. Handles the game initialization and the puzzle screen.
 
-The game starts running when you create an instance `Game()`. Loads the image from `imgs` and the state-action map (used by the solver) from `q_tables`.
+The game starts running when you create an instance `Game()`. Loads the image from folder *imgs* and the state-action map (used by the solver) from folder *q_tables*.
 
 ## *game_constants.py*
 
-Game constants like screen size, FPS, folder location of assets.
+Game constants like screen size, FPS, folder location of assets, etc.
 
 ## *play.py*
 
-Stars the game.
+Starts the game.
 
 ## *sliding_puzzle.py*
 
-`class SlidingPuzzleGame` - puzzle logic
+`class SlidingPuzzleGame` - puzzle logic.
 
 `SlidingPuzzleGame() -> SlidingPuzzleGame`
 
-The puzzle is represented with a list of the numbers from 0 to 8 where 0 is considered the empty spot (the hole). The firs, second and third triples of elements are the first, second and third rows respectively. For example the **final position (solved position)**:
+The puzzle is represented with a *Python list* of the numbers from 0 to 8 where 0 is considered the empty spot (the hole). The first, second and third triples of elements are the first, second and third rows respectively. For example the **final position (solved position)**:
 
 <p align='center'>
   <img src='media\8-puzzle_solved_board.png' width='180'>
@@ -135,15 +135,15 @@ is be represented as `[1,2,3,4,5,6,7,8,0]`.
 
 #### `count_transpositions(board) -> number` `@staticmethod`
 
-- Takes a list with the numbers 0 to 8 and returns the transposition count **of the numbers 1 to 8**. The result is used to check wether a tile arrangement is solvable (i.e. if the final position `[1,2,3,4,5,6,7,8,0]` can be reached only through sliding of the tiles). If the result is even the puzzle is solvable; if it is odd it cannot be solved through sliding.
+- Takes a list with the numbers 0 to 8 and returns the transposition count **of the numbers 1 to 8**. The result is used to check wether a tile arrangement is solvable (i.e. if the final position `[1,2,3,4,5,6,7,8,0]` can be reached only through sliding of the tiles). If the result is even the puzzle is solvable; if it's odd it cannot be solved through sliding.
 
 #### `is_solved() -> bool`
 
 - Returns true if the puzzle is in the solved position.
 
-#### `move_hole(direction) -> (ti, hi)`
+#### `move_hole(direction) -> (tile_index, hole_index)`
 
-- takes a direction `'u'/'r'/'d'/'l'` and *"moves the hole"* in this direction. For example if the hole is top center and we call `move_hole('d')` the center tile will slide up:
+- takes a direction `'u'|'r'|'d'|'l'` and *"moves the hole"* in this direction. For example if the hole is top center and we call `move_hole('d')`, the center tile will slide up:
 
 <table align='center'>
   <tr>
@@ -156,21 +156,21 @@ is be represented as `[1,2,3,4,5,6,7,8,0]`.
   </tr>
 </table>
 
-- Throws an error of the hole can't be moved in the direction. For example error is thrown if hole is top center and we call `move_hole('u')`.
+- Throws an error of the hole can't be moved in the direction. For example error is thrown if the hole is top center and we call `move_hole('u')`.
 - Returns the index of the tile to be moved and the index of the hole before the slide. In the above example `(4, 1)` will be returned.
 
 #### `move_tile(row, col) -> index` 
 
 - Moves the tile in position (row, col) to the adjacent empty spot.
 - Does nothing if none of the adjacent spots are empty.
-- If the tile was moved, returns the index it was moved to. Returns None otherwise.
+- If the tile was moved, **returns the index it was moved to**. Returns None otherwise.
 - Throws an error for invalid row or col.
 
 #### `move_tile_by_index(i) -> index`
 
-- Moves the tile in position 'i' (index in the list) to the adjacent empty spot.
+- Moves the tile in position `i` (index in the list) to the adjacent empty spot.
 - Does nothing if none of the adjacent spots are empty.
-- If the tile was moved, returns the index it was moved to. Returns None otherwise.
+- If the tile was moved, **returns the index it was moved to**. Returns None otherwise.
 - Throws an error if index is out of bounds. 
 
 #### `shuffle() -> None`
@@ -183,7 +183,7 @@ is be represented as `[1,2,3,4,5,6,7,8,0]`.
 
 `Solver() -> Solver`
 
-When created loads the state-action map from `q_tables`.
+When created loads the state-action map from folder *q_tables*.
 
 **Methods**
 
@@ -227,15 +227,15 @@ QLearning(
 ### [Q-algorithm](https://en.wikipedia.org/wiki/Q-learning#Algorithm)
 
 This class implements the Q-learning algorithm for 8-puzzle. The 8-puzzle has $9!/2 = 181440$ possible
-states (board arrangements) reachable from the solved position `[1,2,3,4,5,6,7,8,0]`.
+states (board arrangements) which are reachable from the solved position `[1,2,3,4,5,6,7,8,0]`.
 
 The algorithm creates a Q-function:
 ```math
 Q:  S \times A \rightarrow \mathbb{R}
 ```
-where for every board arrangement and for **every possible movement of the hole in this board arrangement**, the function gives a number. The higher the number the better the move is considered to be.
+where for every board arrangement and for every **possible** movement of the hole in this board arrangement, the function returns a number called the *Q-value of the state-action pair*. The bigger the number the better the move is considered to be.
 
-More precisely the Q-function is represented as a *Python dictionary*, where the keys are the board arrangements converted to numbers `[1,2,3,4,0,5,7,8,6] -> 123405786`, and the values are *dictionaries* of the form `{ 'u': number, 'r': number, 'd': number, 'l': number }` - the possible movements of the hole. The dictionary does not include impossible moves - for example if the hole is top left, then it can only move *right* or *down*, so we have `{ 'r': number, 'd': number }`. Initially all `number`s are set to zero. They will be learned during the training.
+More precisely the Q-function is represented as a *Python dictionary*, where the keys are the board arrangements converted to numbers (e.g., `[1,2,3,4,0,5,7,8,6] -> 123405786`), and the values are *dictionaries* of the form `{ 'u': number, 'r': number, 'd': number, 'l': number }` - the possible movements of the hole. The dictionary does not include impossible moves - for example, if the hole is top left, then it can only move *right* or *down*, so we have `{ 'r': number, 'd': number }`. Initially all `number`s are set to zero. They will be learned during the training.
 
 During the training the Q-table (the dictionary) is updated according to the Q-algorithm:
 ```math
@@ -247,13 +247,13 @@ Where:
 - $Q_{old}(S_i,A_i)$ - old value in the Q-table for the state $S_i$ and action $A_i$.
 - $r$ - the reward given from the puzzle when we take action $A_i$ in state $S_i$.
 - $\alpha$ - the discount factor $0 \leq \alpha \lt 1$. This dictates how valuable future rewards are.
-- $max\{Q_{next}\}$ - this is the maximum possible reward according to the Q-table in the next state $S_{i+1}$ (the state we go to when we take action $A_i$ in state $S_i$).
+- $max\{Q_{next}\}$ - the maximum possible Q-value according to the Q-table in the next state $S_{i+1}$ (the state we go to when we take action $A_i$ in state $S_i$).
 
-In the implementation reward (of 1) is only given when an action that reaches the final state is chosen.
+In the code implementation, reward (of 1) is only given when an action that reaches the final state is chosen.
 
 ### A Note on Optimality
 
-The Q-learning algorithm **is not the best way to solve this puzzle** both in terms of optimality and time complexity. The problem with optimality is that because we choose some actions at random in the algorithm, we cannot be absolutely sure that we found the fastest solve for every state - this has to be checked another way. A better way will be to use some sort of graph search like _A*_ or *iterative deepening*. 
+The Q-learning algorithm **is not the best way to solve this puzzle** both in terms of optimality and time complexity. The problem with optimality is that we don't systematically go through all possible state-action pairs. Instead Q-learning relies on *random exploration of the states*, so we cannot be absolutely sure that we found the fastest solve for every state - this has to be checked another way. A better way will be to use some sort of graph search like _A*_ or *iterative deepening*. 
 
 If we run the algorithm with the following parameters:
 ```python
@@ -265,7 +265,7 @@ exploration_probability=1.0
 ```
 the resulting state-action map is **optimal or almost optimal** - meaning that it solves every position close to the least possible steps. Again, we have to check if the reached solutions are optimal.
 
-The current state-action map in the folder *q_tables* is trained on the above parameters and it is **optimal or almost optimal**, meaning that **on all states it takes at most 31 moves** (it is proven that the hardest to solve states take at least 31 moves so it is optimal on the hardest).
+The current state-action map in the folder *q_tables* is trained on the above parameters and it is optimal or almost optimal - **on all states it takes at most 31 moves**. It is proven that the hardest to solve states take at least 31 moves, so this map is optimal at least on the hardest states.
 
 The training with the above parameters takes about 7 minutes.
 
@@ -275,13 +275,13 @@ The training with the above parameters takes about 7 minutes.
 - `discount_factor=0.92` - nice constant that doesn't run into floating point error when we raise it to the power of 31.
 - `generations=2000000` - found with trial and error, seems OK.
 - `max_steps=40` - an optimal game takes at most 31 moves so we reset the game around that mark (maybe exactly 31 will provide even faster learning).
-- `exploration_probability=1.0` - we have a lot of states and a lot of actions to taka - try to explore them all.
+- `exploration_probability=1.0` - we have a lot of states and a lot of actions to take - try to explore them all.
 
 **Methods**
 
 #### `convert_to_number(board) -> number` `@staticmethod`
 
-- Converts a list of digits to a number: `[1,2,3,4,0,5,7,8,6] -> 123405786`.
+- Converts a list of digits to a number - e.g., `[1,2,3,4,0,5,7,8,6] -> 123405786`.
 
 #### `save(file_name) -> None`
 
@@ -292,13 +292,13 @@ The training with the above parameters takes about 7 minutes.
 
 #### `train() -> None`
 
-- Trains the Q-table with the parameters given in the constructor.
+- Trains the Q-table with the parameters given to the constructor.
 
 #### `test() -> list, number`
 
 - Goes through all solvable board states and test the Q-table.
-- Returns the board which took the most steps to solve and the number of steps it took.
+- Returns the board which took the most steps to solve and the number of steps it took. Does not check beyond 200 steps.
 
 ## *train.py*
 
-A script to run the Q-algorithm. Saves the resulting state-action map to `q_tables\\table_1.pkl`.
+A script to run the Q-algorithm. Saves the resulting state-action map to *q_tables\table_1.pkl*.
